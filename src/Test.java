@@ -1,26 +1,45 @@
-import Crypto.Crypto;
-import Crypto.Decrypto;
+import Crypto.CryptoFile;
+import Crypto.CryptoPassword;
+import Decrypto.Decrypto;
+
+import java.io.IOException;
 
 
 public class Test {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        String cryptoPassword;
-        String password = "ojxy%ufs%rjsif%\u007Fqtxqn|f%n%fqptmtqnp";
+        String file;
+        String cryptedPassword;
+        String cryptedFile;
+        String password = "szklanka";
 
-        Crypto test = new Crypto();
-        Decrypto test2 = new Decrypto();
+        CryptoPassword testPassword = new CryptoPassword();
+        CryptoFile testFile = new CryptoFile();
 
-        test.setCryptoKey(0);
-        test.setPassword(password);
-        test.crypto();
-        cryptoPassword = test.getCryptoPassword();
+        Decrypto testDecryptoPassword= new Decrypto();
+        Decrypto testDecryptoFile = new Decrypto();
 
-        test2.setDecryptoKey(5);
-        test2.decrypto(cryptoPassword);
-        test2.getDecryptoPassword();
+        //TEST SZYFROWANIA HASŁA
+        testPassword.setCryptoPasswordKey(5);
+        cryptedPassword = testPassword.cryptThePassword(password);
+        System.out.println(testPassword.getCryptedPassword());
 
+        // TEST SZYFROWANIA PLIKU TEKSTOWEGO
+        file = testFile.readFile("C:\\Users\\mrejowski\\Desktop\\test.txt");
+        testFile.setCryptoFileKey(2);
+        cryptedFile = testFile.cryptTheFile(file);
+        System.out.println(testFile.getCryptedFile());
+
+        // TEST ODSZYFROWYWANIA HASŁA
+        testDecryptoPassword.setDecryptoKey(5);
+        testDecryptoPassword.decrypto(cryptedPassword);
+        System.out.println(testDecryptoPassword.getDecryptedPassword());
+
+        // TEST ODSZYFROWYWANIA PLIKU
+        testDecryptoFile.setDecryptoKey(2);
+        testDecryptoFile.decrypto(cryptedFile);
+        System.out.println(testDecryptoFile.getDecryptedPassword());
     }
 
 
